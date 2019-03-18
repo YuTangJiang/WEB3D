@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<style>
+
+
+</style>
+</head>
+
+<body> 
+<div>
+	<img src="https://i.imgur.com/omX5Drl.png" style="position:absolute;top:0vw;left:10vw;width:70vw;z-index:-1">
+
+	</div>
+	<p id='st'>
+	 Status: OFF
+	</p>
+	<button id='btSwitch'>Turn ON</button>
+	<p>
+	<button id='normal'>Normal mode</button>
+	</p>
+	<button id='random'>Random mode</button>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script>
+$(window).load(function(){
+var status = false;
+var ch = 0;
+var timer1, timer2, timer3, timer4, timer5, timer6, timer7, timer8, timer9, timer10, timer11, timer12, timer13, timer14, timer15, timer16, timer17, timer18, timer19, timer20, timer21, timer22, timer23;
+
+class Light1 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light1';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '9vw';
+    this.element.style.left = '35vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer1 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer1 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer1);
+  }
+}
+
+class Light2 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light2';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '10vw';
+    this.element.style.left = '40vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer2 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer2 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer2);
+  }
+}
+
+class Light3 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light3';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '11vw';
+    this.element.style.left = '45vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer3 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer3 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer3);
+  }
+}
+
+class Light4 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light4';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '10vw';
+    this.element.style.left = '50vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer4 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer4 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer4);
+  }
+}
+
+class Light5 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light5';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '9vw';
+    this.element.style.left = '55vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer5 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer5 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer5);
+  }
+}
+
+class Light6 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light6';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '22vw';
+    this.element.style.left = '26vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer6 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer6 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer6);
+  }
+}
+
+class Light7 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light7';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '23vw';
+    this.element.style.left = '31vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer7 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer7 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer7);
+  }
+}
+
+class Light8 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light8';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '24vw';
+    this.element.style.left = '36vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer8 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer8 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer8);
+  }
+}
+
+class Light9 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '25vw';
+    this.element.style.left = '41vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer9 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer9 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer9);
+  }
+}
+
+class Light10 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light10';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '26vw';
+    this.element.style.left = '46vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer10 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer10 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer10);
+  }
+}
+
+class Light11 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '27vw';
+    this.element.style.left = '51vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer11 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer11 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer11);
+  }
+}
+
+class Light12 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light12';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '26vw';
+    this.element.style.left = '56vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer12 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer12 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer12);
+  }
+}
+
+class Light13 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '25vw';
+    this.element.style.left = '61vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer13 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer13 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer13);
+  }
+}
+
+class Light14 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light14';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '40vw';
+    this.element.style.left = '20vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer14 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer14 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer14);
+  }
+}
+
+class Light15 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light15';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '41vw';
+    this.element.style.left = '25vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer15 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer15 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer15);
+  }
+}
+
+class Light16 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light16';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '42vw';
+    this.element.style.left = '30vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer16 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer16 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer16);
+  }
+}
+
+class Light17 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light17';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '43vw';
+    this.element.style.left = '35vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer17 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer17 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer17);
+  }
+}
+
+class Light18 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light18';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '44vw';
+    this.element.style.left = '40vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer18 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer18 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer18);
+  }
+}
+
+class Light19 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light19';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '45vw';
+    this.element.style.left = '45vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer19 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer19 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer19);
+  }
+}
+
+class Light20 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light20';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '44vw';
+    this.element.style.left = '50vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer20 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer20 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer20);
+  }
+}
+
+class Light21 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light21';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '42vw';
+    this.element.style.left = '55vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer21 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer21 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer21);
+  }
+}
+
+class Light22 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light22';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '40vw';
+    this.element.style.left = '60vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer22 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer22 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer22);
+  }
+}
+
+class Light23 {
+  constructor() {  
+    this.element = document.createElement ('div');
+    this.element.id = 'light23';
+    this.element.style.cssText = "position:absolute;width:20px;height:20px;border-radius:15px;z-index:1"; 
+	  this.element.style.top = '38vw';
+    this.element.style.left = '65vw';
+    this.element.style.background = "hsl(0, 0%, 30%)";
+    document.getElementsByTagName('body')[0].appendChild(this.element);
+  }
+	changeColor(){
+  	if(ch === 0)
+  	this.normalChangeColor();
+    else
+    this.randomChangeColor();
+  }
+	normalChangeColor() {
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    if(ch === 1)	self.randomChangeColor();
+    else	timer23 = setTimeout (function() { self.normalChangeColor() } , 1000);
+    
+  }
+  randomChangeColor(){
+  	var self = this;
+  	var hue = Math.random()*200;
+  	self.element.style.background = "hsl(" + hue + ", 43%, 51%)";
+    var r = (Math.random()*2000)+500; 
+    if(ch === 0)	self.normalChangeColor();
+    else	timer23 = setTimeout (function() { self.randomChangeColor() } , r);
+  }
+  stopChange(){
+  	var self = this;
+    self.element.style.background = "hsl(0, 0%, 30%)";
+  	clearTimeout(timer23);
+  }
+}
+init();
+
+function init() {
+  var light1 = new Light1();
+  var light2 = new Light2();
+  var light3 = new Light3();
+  var light4 = new Light4();
+  var light5 = new Light5();
+  var light6 = new Light6();
+  var light7 = new Light7();
+  var light8 = new Light8();
+  var light9 = new Light9();
+  var light10 = new Light10();
+  var light11 = new Light11();
+  var light12 = new Light12();
+  var light13 = new Light13();
+  var light14 = new Light14();
+  var light15 = new Light15();
+  var light16 = new Light16();
+  var light17 = new Light17();
+  var light18 = new Light18();
+  var light19 = new Light19();
+  var light20 = new Light20();
+  var light21 = new Light21();
+  var light22 = new Light22();
+  var light23 = new Light23();
+  normal.addEventListener("click", function(){
+  	ch = 0;
+  })
+  random.addEventListener("click", function(){
+  	ch = 1;
+  })
+  btSwitch.addEventListener("click", function(){
+    status = !status;
+    if (status === true) {
+      st.innerHTML = "Status: ON";
+      btSwitch.innerHTML = "Turn OFF"
+      light1.changeColor();
+      light2.changeColor();
+      light3.changeColor();
+      light4.changeColor();
+      light5.changeColor();
+      light6.changeColor();
+      light7.changeColor();
+      light8.changeColor();
+      light9.changeColor();
+      light10.changeColor();
+      light11.changeColor();
+      light12.changeColor();
+      light13.changeColor();
+      light14.changeColor();
+      light15.changeColor();
+      light16.changeColor();
+      light17.changeColor();
+      light18.changeColor();
+      light19.changeColor();
+      light20.changeColor();
+      light21.changeColor();
+      light22.changeColor();
+      light23.changeColor();
+    } else {
+      st.innerHTML = "Status: OFF";
+      btSwitch.innerHTML = "Turn ON"
+      light1.stopChange();
+      light2.stopChange();
+      light3.stopChange();
+      light4.stopChange();
+      light5.stopChange();
+      light6.stopChange();
+      light7.stopChange();
+      light8.stopChange();
+      light9.stopChange();
+      light10.stopChange();
+      light11.stopChange();
+      light12.stopChange();
+      light13.stopChange();
+      light14.stopChange();
+      light15.stopChange();
+      light16.stopChange();
+      light17.stopChange();
+      light18.stopChange();
+      light19.stopChange();
+      light20.stopChange();
+      light21.stopChange();
+      light22.stopChange();
+      light23.stopChange();
+    }  
+  });
+}	
+});
+
+
+</script>
+</body>
+
+</html>
