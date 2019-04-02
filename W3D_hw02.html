@@ -46,8 +46,9 @@ var camera, scene, renderer;
 var mesh;
 var angle = 0;
 var lamp;
-var numM = 1;
+var numM = 1, numS = 0.6;
 var spotLight;
+var spotLightsOff = false;
 var lightsOff = false;
 var useCamera1 = false;
 var useCamera2 = false;
@@ -60,41 +61,75 @@ $('#intensity1').change ( function() {
 })
 $('#intensity2').change ( function() {
 	console.log ( $(this).val() );
-  light.intensity = $(this).val();
+  if(spotLightsOff === false){
+  	lamp.setLight( $(this).val());
+    lamp2.setLight( $(this).val());
+    lamp3.setLight( $(this).val());
+  }
+  numS = $(this).val();
 })
 $('#tView1').click(function() {
 	lightsOff = !lightsOff;
-  
   if (lightsOff) {
   	light.intensity = 0;
-    //light2.intensity = 0;
   } else {
-  	light.intensity = numM;
-    //light2.intensity = .5;  
+  	light.intensity = numM; 
+  }
+});
+$('#tView2').click(function() {
+	spotLightsOff = !spotLightsOff;
+  if (spotLightsOff) {
+  	lamp.setLight(3);
+    lamp2.setLight(3);
+    lamp3.setLight(3);
+  } else {
+  	lamp.setLight(numS);
+    lamp2.setLight(numS);
+    lamp3.setLight(numS);
   }
 });
 class mSpotLight{
 	constructor(x, y, z, mesh, x1, y1, z1){
+  	this.x = x;
+    this.y = y;
+    this.z = z;
+    this.mesh = mesh;
+    this.x1 = x1;
+    this.y1 = y1;
+    this.z1 = z1;
     this.box = new THREE.Object3D();  
-    var tower = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 15), new THREE.MeshPhongMaterial());
-    tower.castShadow = true; //default is false
-    tower.receiveShadow = false; //default
-    this.box.add(tower);
-    tower.position.set(0, 0, 0);
-  	tower.rotation.x = Math.PI / x1;
-    tower.rotation.y = Math.PI / y1;
-    tower.rotation.z = Math.PI / z1;
     this.light = new THREE.SpotLight(0xffffff);
+  }
+  setAddress(){
+  	this.box.position.set(this.x, this.y, this.z);
+  }
+  createLight(){
     this.box.add(this.light);
     this.light.position.copy(this.box.position);
     this.light.angle = 0.4;
     this.light.penumbra = 0.6;
     this.light.distance = 120;
     this.light.decay = 1;
-    this.light.target = mesh;
-    this.box.position.set(x, y, z);
-    //this.box.lookAt(mesh.position);
-    scene.add(this.box);
+    this.light.target = this.mesh;
+  }
+  createLamp(){
+    this.tower = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 15), new THREE.MeshPhongMaterial());
+    this.tower.castShadow = true; //default is false
+    this.tower.receiveShadow = false; //default
+    this.box.add(this.tower);
+    this.tower.position.set(0, 0, 0);
+  }
+  changeAngle(){
+  	//this.box.lookAt(this.mesh.position);
+  	this.tower.rotation.x = Math.PI / this.x1;
+    this.tower.rotation.y = Math.PI / this.y1;
+    this.tower.rotation.z = Math.PI / this.z1;
+  }
+  setLight(x){
+  	this.light.penumbra = x;
+  }
+  add(){
+  	scene.add(this.box);
   }
 }
 
@@ -131,29 +166,25 @@ function init() {
   axis = new THREE.AxisHelper(20);
   //scene.add(axis);
 
-  ceiling = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshBasicMaterial({
+  ceiling = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshBasicMaterial({
     side: THREE.DoubleSide,
     transparent: true,
     opacity: 0.2
   }));
-  //scene.add(ceiling);
+  scene.add(ceiling);
   ceiling.rotation.x = Math.PI / 2;
-  ceiling.position.y = 80;
+  ceiling.position.y = 81;
   let chair1 = new THREE.Mesh(new THREE.BoxGeometry(80, 2, 20), new THREE.MeshPhongMaterial({color: 0x333333}))
   scene.add(chair1);
   chair1.position.y = 20;
   chair1.position.z = 50;
   let chairLLeg1 = new THREE.Mesh(new THREE.BoxGeometry(2, 20, 20), new THREE.MeshPhongMaterial({color: 0x333333}))
   scene.add(chairLLeg1);
-  chairLLeg1.position.x = -30;
-  chairLLeg1.position.y = 10;
-  chairLLeg1.position.z = 50;
+  chairLLeg1.position.set(-30, 10, 50);
   let chairRLeg1 = new THREE.Mesh(new THREE.BoxGeometry(2, 20, 20), new THREE.MeshPhongMaterial({color: 0x333333}))
   scene.add(chairRLeg1);
-  chairRLeg1.position.x = 30;
-  chairRLeg1.position.y = 10;
-  chairRLeg1.position.z = 50;
-	let wall1= new THREE.Mesh(new THREE.BoxGeometry(500, 80, 10), new THREE.MeshPhongMaterial())
+  chairRLeg1.position.set(30, 10, 50);
+  let wall1= new THREE.Mesh(new THREE.BoxGeometry(500, 80, 10), new THREE.MeshPhongMaterial())
   scene.add(wall1);
   wall1.position.y = 40;
   wall1.position.z = -250;
@@ -170,39 +201,28 @@ function init() {
   
   let wall4= new THREE.Mesh(new THREE.BoxGeometry(10, 80, 400), new THREE.MeshPhongMaterial())
   scene.add(wall4);
-  wall4.position.x = -245;
-  wall4.position.y = 40;
-  wall4.position.z = 50;
+  wall4.position.set(-245, 40, 50);
   
   let wall01 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 200), new THREE.MeshPhongMaterial())
   scene.add(wall01);
-  wall01.position.x = -83;
-  wall01.position.y = 40;
-  wall01.position.z = 5;
+  wall01.position.set(-83, 40, 5);
   
   let wall02 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 200), new THREE.MeshPhongMaterial())
   scene.add(wall02);
-  wall02.position.x = 83;
-  wall02.position.y = 40;
-  wall02.position.z = 5;
+  wall02.position.set(83, 40, 5);
   
   let wall03 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 50), new THREE.MeshPhongMaterial())
   scene.add(wall03);
-  wall03.position.x = 83;
-  wall03.position.y = 40;
-  wall03.position.z = 220;
+  wall03.position.set(83, 40, 220);
   
   let wall04 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 50), new THREE.MeshPhongMaterial())
   scene.add(wall04);
-  wall04.position.x = -83;
-  wall04.position.y = 40;
-  wall04.position.z = 220;
+  wall04.position.set(-83, 40, 220);
   
   let wall05 = new THREE.Mesh(new THREE.BoxGeometry(300, 80, 10), new THREE.MeshPhongMaterial())
   scene.add(wall05);
-  wall05.position.x = 0;
-  wall05.position.y = 40;
-  wall05.position.z = -100;
+  wall05.position.set(0, 40, -100);
+
 
   let loader = new THREE.TextureLoader();
   loader.crossOrigin = '';
@@ -222,16 +242,31 @@ function init() {
   // so that we can use lamp.lookAt to follow mesh
   //
   mesh = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
-  scene.add(mesh)
+  scene.add(mesh);
   mesh2 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
-  scene.add(mesh2)
+  scene.add(mesh2);
   mesh3 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
-	lamp = new mSpotLight(0, 80, 0, mesh, 1, 1, 0.5);  
-  lamp2 = new mSpotLight(175, 80, 0, mesh2, 0.5, 0.5, 2.5);
-  lamp3 = new mSpotLight(-175, 80, 0, mesh3, 0.5, 0.5, 2.5);
-
+  scene.add(mesh3);
+	lamp = new mSpotLight(0, 80, 0, mesh, 2.5, 0.5, 0.5);
+	lamp.add();
+	lamp.createLamp();
+	lamp.createLight();
+	lamp.setAddress();
+	lamp.changeAngle();
+	
+	lamp2 = new mSpotLight(175, 80, 0, mesh2, 0.5, 0.5, 2.5);
+	lamp2.add();
+	lamp2.createLamp();
+	lamp2.createLight();
+	lamp2.setAddress();
+	lamp2.changeAngle();
   
-
+	lamp3 = new mSpotLight(-175, 80, 0, mesh3, 0.5, 0.5, 1.5);
+	lamp3.add();
+	lamp3.createLamp();
+	lamp3.createLight();
+	lamp3.setAddress();
+	lamp3.changeAngle();
   ///////////
   
   light = new THREE.PointLight(0xffffff, 1,2700);
