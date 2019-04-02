@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<style>
+#info {
+  position: absolute;
+  top: 2%;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: #ffff00
+}
+
+body {
+  overflow: hidden;
+}
+
+</style>
+</head>
+
+<body> 
+<div id="info"> Hw2 
+  <br>
+  <button id="tView1" style="width:20%">Main Light Turn</button>
+  <input type=range min=0 max=1 step=0.1 id='intensity1'> intensity    <br>
+  <br>
+  <button id="tView2" style="width:20%">Spot Light Turn</button>
+  <input type=range min=0 max=1 step=0.1 id='intensity2'> intensity    <br>
+  <a href="javascript:toggleCamera1()">Camera1</a>
+  <a href="javascript:toggleCamera2()">Camera2</a>
+  
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+
+
+</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script>
+var camera, scene, renderer;
+var mesh;
+var angle = 0;
+var lamp;
+var numM = 1;
+var spotLight;
+var lightsOff = false;
+var useCamera1 = false;
+var useCamera2 = false;
+$('#intensity1').change ( function() {
+	console.log ( $(this).val() );
+	if(lightsOff === false){
+  	light.intensity = $(this).val();
+  }
+  numM = $(this).val();
+})
+$('#intensity2').change ( function() {
+	console.log ( $(this).val() );
+  light.intensity = $(this).val();
+})
+$('#tView1').click(function() {
+	lightsOff = !lightsOff;
+  
+  if (lightsOff) {
+  	light.intensity = 0;
+    //light2.intensity = 0;
+  } else {
+  	light.intensity = numM;
+    //light2.intensity = .5;  
+  }
+});
+class mSpotLight{
+	constructor(x, y, z, mesh, x1, y1, z1){
+    this.box = new THREE.Object3D();  
+    var tower = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 15), new THREE.MeshPhongMaterial());
+    tower.castShadow = true; //default is false
+    tower.receiveShadow = false; //default
+    this.box.add(tower);
+    tower.position.set(0, 0, 0);
+  	tower.rotation.x = Math.PI / x1;
+    tower.rotation.y = Math.PI / y1;
+    tower.rotation.z = Math.PI / z1;
+    this.light = new THREE.SpotLight(0xffffff);
+    this.box.add(this.light);
+    this.light.position.copy(this.box.position);
+    this.light.angle = 0.4;
+    this.light.penumbra = 0.6;
+    this.light.distance = 120;
+    this.light.decay = 1;
+    this.light.target = mesh;
+    this.box.position.set(x, y, z);
+    //this.box.lookAt(mesh.position);
+    scene.add(this.box);
+  }
+}
+
+init();
+animate();
+render()
+function toggleCamera1() {
+  useCamera1 = !useCamera1;
+}
+function toggleCamera2() {
+  useCamera2 = !useCamera2;
+}
+function init() {
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+  camera.position.z = 500;
+  
+	camera1 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+  camera1.position.set(0, 100, -100);
+  camera1.lookAt(new THREE.Vector3(0, 20, 20));
+  
+  camera2 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+  camera2.position.set(200, 100, 200);
+  camera2.lookAt(new THREE.Vector3(200, 20, 20));
+  
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x888888);
+
+  let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  document.body.appendChild(renderer.domElement);
+  axis = new THREE.AxisHelper(20);
+  //scene.add(axis);
+
+  ceiling = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshBasicMaterial({
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 0.2
+  }));
+  //scene.add(ceiling);
+  ceiling.rotation.x = Math.PI / 2;
+  ceiling.position.y = 80;
+  let chair1 = new THREE.Mesh(new THREE.BoxGeometry(80, 2, 20), new THREE.MeshPhongMaterial({color: 0x333333}))
+  scene.add(chair1);
+  chair1.position.y = 20;
+  chair1.position.z = 50;
+  let chairLLeg1 = new THREE.Mesh(new THREE.BoxGeometry(2, 20, 20), new THREE.MeshPhongMaterial({color: 0x333333}))
+  scene.add(chairLLeg1);
+  chairLLeg1.position.x = -30;
+  chairLLeg1.position.y = 10;
+  chairLLeg1.position.z = 50;
+  let chairRLeg1 = new THREE.Mesh(new THREE.BoxGeometry(2, 20, 20), new THREE.MeshPhongMaterial({color: 0x333333}))
+  scene.add(chairRLeg1);
+  chairRLeg1.position.x = 30;
+  chairRLeg1.position.y = 10;
+  chairRLeg1.position.z = 50;
+	let wall1= new THREE.Mesh(new THREE.BoxGeometry(500, 80, 10), new THREE.MeshPhongMaterial())
+  scene.add(wall1);
+  wall1.position.y = 40;
+  wall1.position.z = -250;
+  
+  let wall2= new THREE.Mesh(new THREE.BoxGeometry(500, 80, 10), new THREE.MeshPhongMaterial())
+  scene.add(wall2);
+  wall2.position.y = 40;
+  wall2.position.z = 250;
+  
+  let wall3= new THREE.Mesh(new THREE.BoxGeometry(10, 80, 500), new THREE.MeshPhongMaterial())
+  scene.add(wall3);
+  wall3.position.y = 40;
+  wall3.position.x = 245;
+  
+  let wall4= new THREE.Mesh(new THREE.BoxGeometry(10, 80, 400), new THREE.MeshPhongMaterial())
+  scene.add(wall4);
+  wall4.position.x = -245;
+  wall4.position.y = 40;
+  wall4.position.z = 50;
+  
+  let wall01 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 200), new THREE.MeshPhongMaterial())
+  scene.add(wall01);
+  wall01.position.x = -83;
+  wall01.position.y = 40;
+  wall01.position.z = 5;
+  
+  let wall02 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 200), new THREE.MeshPhongMaterial())
+  scene.add(wall02);
+  wall02.position.x = 83;
+  wall02.position.y = 40;
+  wall02.position.z = 5;
+  
+  let wall03 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 50), new THREE.MeshPhongMaterial())
+  scene.add(wall03);
+  wall03.position.x = 83;
+  wall03.position.y = 40;
+  wall03.position.z = 220;
+  
+  let wall04 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 50), new THREE.MeshPhongMaterial())
+  scene.add(wall04);
+  wall04.position.x = -83;
+  wall04.position.y = 40;
+  wall04.position.z = 220;
+  
+  let wall05 = new THREE.Mesh(new THREE.BoxGeometry(300, 80, 10), new THREE.MeshPhongMaterial())
+  scene.add(wall05);
+  wall05.position.x = 0;
+  wall05.position.y = 40;
+  wall05.position.z = -100;
+
+  let loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  texture = loader.load('https://i.imgur.com/DrvlmNW.jpg?1');
+  texture.repeat.set (2,2);
+  texture.wrapS = texture.wrapT = true;
+
+  let floor = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshPhongMaterial({
+    side: THREE.DoubleSide,
+    map: texture
+  }))
+  scene.add(floor)
+  floor.rotation.x = -Math.PI / 2
+
+  ///////////////////////////////////////////////////////////
+	// axis of lamp is in +Z axis
+  // so that we can use lamp.lookAt to follow mesh
+  //
+  mesh = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh)
+  mesh2 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh2)
+  mesh3 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+	lamp = new mSpotLight(0, 80, 0, mesh, 1, 1, 0.5);  
+  lamp2 = new mSpotLight(175, 80, 0, mesh2, 0.5, 0.5, 2.5);
+  lamp3 = new mSpotLight(-175, 80, 0, mesh3, 0.5, 0.5, 2.5);
+
+  
+
+  ///////////
+  
+  light = new THREE.PointLight(0xffffff, 1,2700);
+  light.position.set(0, 150, 0);
+  scene.add(light);
+  mesh.position.set(0, 40, -100);
+  mesh2.position.set(245, 40, 0);
+  mesh3.position.set(-245, 40, 0);
+}
+
+function animate() {
+  //angle += 0.01;
+  
+	requestAnimationFrame(animate);
+  //spotLightHelper.update();
+	let nowCamera1 = useCamera1 ? camera1 : camera;
+  let nowCamera2 = useCamera2 ? camera2 : camera;
+  if(nowCamera1 === camera1)	nowCamera2 = camera;
+  if(nowCamera2 === camera2)	nowCamera1 = camera;
+  if(nowCamera1 != camera && nowCamera2 === camera)	renderer.render(scene, nowCamera1);
+  else if(nowCamera2 != camera && nowCamera1 === camera)	renderer.render(scene, nowCamera2);
+  else renderer.render(scene, camera);
+}
+
+function render() {
+  renderer.render(scene, camera);
+}
+</script>
+</body>
+
+</html>
