@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<style>
+#container {
+  width: 40vw;
+  height: 40vw;
+  float: left;
+  background-color: yellow;
+  margin: 10px;
+}
+
+#camera1 {
+  width: 10vw;
+  height: 10vw;
+  background-color: yellow;
+  margin: 10px;
+}
+
+#camera2 {
+  width: 10vw;
+  height: 10vw;
+  background-color: yellow;
+  margin: 10px;
+}
+
+#camera3 {
+  width: 10vw;
+  height: 10vw;
+  background-color: yellow;
+  margin: 10px;
+}
+
+#camera4 {
+  width: 10vw;
+  height: 10vw;
+  background-color: yellow;
+  margin: 10px;
+}
+
+#cameraMain {
+  width: 20vw;
+  height: 20vw;
+  float: left;
+  background-color: yellow;
+  margin: 10px;
+}
+
+p {
+  margin: 10px;
+  text-align: justify;
+}
+
+</style>
+</head>
+
+<body> 
+<h1 style="font-size:2em; text-align:center; margin:15px"> 
+遊戲風景
+</h1>
+
+<hr>
+
+<div id="container">
+<!--canvas id='mycanvas'></canvas-->
+
+</div>
+<div id="cameraMain">
+
+</div>
+
+<div align= left>
+  <table width="10vw" height="10vw" border="1">
+    <tr>
+      <td>
+        <div id="camera1">
+        </div>
+      </td>
+      <td>
+        <div id="camera2">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><button onclick="cam1()">camera1</button></td>
+      <td align="center" valign="middle"><button onclick="cam2()">camera2</button></td>
+    </tr>
+    <tr>
+      <td>
+        <div id="camera3">
+        </div>
+      </td>
+      <td>
+        <div id="camera4">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><button onclick="cam3()">camera3</button></td>
+      <td align="center" valign="middle"><button onclick="cam4()">camera4</button></td>
+    </tr>
+  </table>
+</div>
+<button onclick="goBack()">主畫面</button>
+<a href="https://imgur.com/3EX9i89">平面圖</a>
+<p>
+選擇畫作
+</p>
+<select name="number" id="number" onchange="print_note();">
+<option value="0">請選擇</option>
+<option value="1">picture1</option>
+<option value="2">picture2</option>
+<option value="3">picture3</option>
+<option value="4">picture4</option>
+<option value="5">picture5</option>
+<option value="6">picture6</option>
+</select>
+<div id=note>
+說明
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r78/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+var scene, renderer, renderer1, camera, camera1;
+var mouse = new THREE.Vector2();
+var raycaster = new THREE.Raycaster();
+var pickables = [];
+var lamp;
+var mesh;
+var keys = [
+  [0, 0], [0.4, 0.6], [0.5, 0.6], [0.9, 0], [1, 0]
+];
+var T = 5;
+var clock = new THREE.Clock();
+var ts = clock.getElapsedTime();
+var useCamera1=true, useCamera2=false, useCamera3=false, useCamera4=false;
+var look1=false, look2=false, look3=false, look4=false, look5=false, look6=false;
+var tmp;
+class sCamera{
+	constructor(x, y, z, x1, y1){
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.x1 = x1;
+	this.y1 = y1;
+	this.box = new THREE.Object3D();
+	this.obj = new THREE.Object3D();
+  this.createCamera();
+  this.setAddress();
+  this.changeAngle();
+  this.add();
+  }
+  setAddress(){
+    this.box.position.set(this.x, this.y, this.z);
+  }
+  createCamera(){
+    this.body = new THREE.Mesh (new THREE.BoxGeometry (5,5,20), new THREE.MeshNormalMaterial({color: 0x666666}));
+    this.body.position.set(0, 0, 0);
+    this.obj.add(this.body);
+    this.box.add(this.obj);
+  }
+  changeAngle(){
+    this.box.rotation.x = Math.PI / this.x1;
+    this.box.rotation.y = Math.PI / this.y1;
+    this.box.rotation.order = 'YXZ';
+  }
+  plus(){
+  	let intkey = keyframe(clock.getElapsedTime());
+  	this.obj.rotation.y = intkey - 0.3;
+  }
+  add(){
+    scene.add(this.box);
+  }
+}
+class mSpotLight{
+	constructor(x, y, z, mesh, x1, y1, z1){
+  	this.x = x;
+    this.y = y;
+    this.z = z;
+    this.mesh = mesh;
+    this.x1 = x1;
+    this.y1 = y1;
+    this.z1 = z1;
+    this.box = new THREE.Object3D();  
+    this.light = new THREE.SpotLight(0xffffff);
+    this.add();
+  	this.createLamp();
+		this.createLight();
+		this.setAddress();
+		this.changeAngle();
+  }
+  setAddress(){
+  	this.box.position.set(this.x, this.y, this.z);
+  }
+  createLight(){
+    this.box.add(this.light);
+    this.light.position.copy(this.box.position);
+    this.light.angle = 0.4;
+    this.light.penumbra = 0.6;
+    this.light.distance = 12;
+    this.light.decay = 1;
+    this.light.target = this.mesh;
+  }
+  createLamp(){
+    this.tower = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 15), new THREE.MeshPhongMaterial());
+    this.tower.castShadow = true; //default is false
+    this.tower.receiveShadow = false; //default
+    this.box.add(this.tower);
+    this.tower.position.set(0, 0, 0);
+  }
+  changeAngle(){
+  	//this.box.lookAt(this.mesh.position);
+  	this.tower.rotation.x = Math.PI / this.x1;
+    this.tower.rotation.y = Math.PI / this.y1;
+    this.tower.rotation.z = Math.PI / this.z1;
+  }
+  setLight(x){
+  	this.light.penumbra = x;
+  }
+  add(){
+  	scene.add(this.box);
+  }
+}
+
+init();
+animate();
+renderM()
+function init() {
+  renderer = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  renderer1 = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  renderer2 = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  renderer3 = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  renderer4 = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  rendererM = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  var ww = $('#container').innerWidth();
+  var hh = $('#container').innerHeight();
+  renderer.setSize(ww, hh);
+  renderer.setClearColor(0x555555);
+  renderer1.setSize($('#camera1').innerWidth(), $('#camera1').innerHeight());
+  renderer2.setSize($('#camera2').innerWidth(), $('#camera2').innerHeight());
+  renderer3.setSize($('#camera3').innerWidth(), $('#camera3').innerHeight());
+  renderer4.setSize($('#camera4').innerWidth(), $('#camera4').innerHeight());
+  rendererM.setSize($('#cameraMain').innerWidth(), $('#cameraMain').innerHeight());
+  
+  $('#container').append(renderer.domElement);
+  $('#camera1').append(renderer1.domElement);
+  $('#camera2').append(renderer2.domElement);
+  $('#camera3').append(renderer3.domElement);
+  $('#camera4').append(renderer4.domElement);
+  $('#cameraMain').append(rendererM.domElement);
+  scene = new THREE.Scene();
+  
+  camera = new THREE.PerspectiveCamera(45, ww / hh, 1, 10000);
+  
+  camera.position.x = 0;
+  camera.position.y = 80;
+  camera.position.z = 750;
+  
+  camera1 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+  cameraObj1 = new sCamera(75, 80, 240, -6, 4);
+  camera2 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+  cameraObj2 = new sCamera(-230, 80, 240, -6, -4);
+  camera3 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+  cameraObj3 = new sCamera(100, 80, 240, -6, -4.5);
+  camera4 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+  cameraObj4 = new sCamera(230, 80, -230, -6, 1.35);
+  
+	cameraLook1 = new THREE.PerspectiveCamera(45, ww / hh, 1, 1000);
+  cameraLook1.position.set(0, 35, 22);
+  cameraLook1.lookAt(new THREE.Vector3(0, 35, -2000));
+  
+  cameraLook2 = new THREE.PerspectiveCamera(45, ww / hh, 1, 1000);
+  cameraLook2.position.set(-123, 35, 0);
+  cameraLook2.lookAt(new THREE.Vector3(-2000, 35, 0));
+  
+  cameraLook3 = new THREE.PerspectiveCamera(45, ww / hh, 1, 1000);
+  cameraLook3.position.set(123, 35, 0);
+  cameraLook3.lookAt(new THREE.Vector3(2000, 35, 0));
+  
+  cameraLook4 = new THREE.PerspectiveCamera(45, ww / hh, 1, 1000);
+  cameraLook4.position.set(-206, 35, 20);
+  cameraLook4.lookAt(new THREE.Vector3(2000, 35, 20));
+  
+  cameraLook5 = new THREE.PerspectiveCamera(45, ww / hh, 1, 1000);
+  cameraLook5.position.set(-41, 35, 20);
+  cameraLook5.lookAt(new THREE.Vector3(2000, 35, 20));
+  
+  cameraLook6 = new THREE.PerspectiveCamera(45, ww / hh, 1, 1000);
+  cameraLook6.position.set(206, 35, 20);
+  cameraLook6.lookAt(new THREE.Vector3(-2000, 35, 20));
+  
+	let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
+  //scene.add(gridXZ);
+	let loader = new THREE.TextureLoader();
+  loader.crossOrigin = "";
+  
+  tex = loader.load ("https://i.imgur.com/BXldubl.jpg");
+	let painting = new THREE.Mesh (new THREE.PlaneGeometry(96,54), new THREE.MeshBasicMaterial({map: tex}));
+  scene.add (painting);
+  painting.position.y =40;
+  painting.position.z = -94;
+  painting.name = 'desert1';
+  
+  tex = loader.load ("https://i.imgur.com/Krbzb05.jpg");
+	let painting2 = new THREE.Mesh (new THREE.PlaneGeometry(96,54), new THREE.MeshBasicMaterial({map: tex}));
+  scene.add (painting2);
+  painting2.rotation.y = Math.PI/2;
+  painting2.position.x =-239;
+  painting2.position.y =40;
+  painting2.position.z =0;
+  painting2.name = 'weed1';
+  
+  tex = loader.load ("https://i.imgur.com/5hLsPaZ.jpg");
+  let painting3 = new THREE.Mesh (new THREE.PlaneGeometry(96,54), new THREE.MeshBasicMaterial({map: tex}));
+  scene.add (painting3);
+  painting3.rotation.y = -Math.PI/2;
+  painting3.position.x =239;
+  painting3.position.y =40;
+  painting3.position.z =0;
+  painting3.name = 'snow1';
+  
+  tex = loader.load ("https://i.imgur.com/0QmdDfk.jpg");
+  let painting4 = new THREE.Mesh (new THREE.PlaneGeometry(96,54), new THREE.MeshBasicMaterial({map: tex}));
+  scene.add (painting4);
+  painting4.rotation.y = -Math.PI/2;
+  painting4.position.x =-90;
+  painting4.position.y =40;
+  painting4.position.z =20;
+  painting4.name = 'weed2';
+  
+  tex = loader.load ("https://i.imgur.com/Aidpnlz.jpg");
+  let painting5 = new THREE.Mesh (new THREE.PlaneGeometry(96,54), new THREE.MeshBasicMaterial({map: tex}));
+  scene.add (painting5);
+  painting5.rotation.y = -Math.PI/2;
+  painting5.position.x =75;
+  painting5.position.y =40;
+  painting5.position.z =20;
+  painting5.name = 'desert2';
+  
+  tex = loader.load ("https://i.imgur.com/P9wmWKZ.jpg");
+  let painting6 = new THREE.Mesh (new THREE.PlaneGeometry(96,54), new THREE.MeshBasicMaterial({map: tex}));
+  scene.add (painting6);
+  painting6.rotation.y = Math.PI/2;
+  painting6.position.x =90;
+  painting6.position.y =40;
+  painting6.position.z =20;
+  painting6.name = 'snow2';
+  
+  pickables.push (painting, painting2, painting3, painting4, painting5, painting6);
+  
+  window.addEventListener('resize', onWindowResize, false);
+  window.addEventListener('mousedown', onDocumentMouseDown, false);
+ 	//////////////////////////////////////
+  let wall1= new THREE.Mesh(new THREE.BoxGeometry(500, 80, 10), new THREE.MeshPhongMaterial())
+  scene.add(wall1);
+  wall1.position.y = 40;
+  wall1.position.z = -250;
+  
+  let wall2= new THREE.Mesh(new THREE.BoxGeometry(500, 80, 10), new THREE.MeshPhongMaterial())
+  scene.add(wall2);
+  wall2.position.y = 40;
+  wall2.position.z = 250;
+  
+  let wall3= new THREE.Mesh(new THREE.BoxGeometry(10, 80, 500), new THREE.MeshPhongMaterial())
+  scene.add(wall3);
+  wall3.position.y = 40;
+  wall3.position.x = 245;
+  
+  let wall4= new THREE.Mesh(new THREE.BoxGeometry(10, 80, 400), new THREE.MeshPhongMaterial())
+  scene.add(wall4);
+  wall4.position.set(-245, 40, 50);
+  
+  let wall01 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 200), new THREE.MeshPhongMaterial())
+  scene.add(wall01);
+  wall01.position.set(-83, 40, 5);
+  
+  let wall02 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 200), new THREE.MeshPhongMaterial())
+  scene.add(wall02);
+  wall02.position.set(83, 40, 5);
+  
+  let wall03 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 50), new THREE.MeshPhongMaterial())
+  scene.add(wall03);
+  wall03.position.set(83, 40, 220);
+  
+  let wall04 = new THREE.Mesh(new THREE.BoxGeometry(10, 80, 50), new THREE.MeshPhongMaterial())
+  scene.add(wall04);
+  wall04.position.set(-83, 40, 220);
+  
+  let wall05 = new THREE.Mesh(new THREE.BoxGeometry(300, 80, 10), new THREE.MeshPhongMaterial())
+  scene.add(wall05);
+  wall05.position.set(0, 40, -100);
+
+  texture = loader.load('https://i.imgur.com/DrvlmNW.jpg?1');
+  texture.wrapS = texture.wrapT = true;
+  let floor = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshPhongMaterial({
+    side: THREE.DoubleSide,
+    map: texture
+  }))
+  scene.add(floor)
+  floor.rotation.x = -Math.PI / 2
+  
+  light = new THREE.PointLight(0xffffff, 1,2700);
+  light.position.set(0, 150, 0);
+  scene.add(light);
+  mesh = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh);
+  mesh2 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh2);
+  mesh3 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh3);
+  mesh4 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh4);
+  mesh5 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh5);
+  mesh6 = new THREE.Mesh(new THREE.SphereGeometry(2, 2, 2), new THREE.MeshNormalMaterial());
+  scene.add(mesh5);
+  mesh.position.set(0, 35, -100);
+  mesh2.position.set(245, 35, 0);
+  mesh3.position.set(-245, 35, 0);
+  mesh4.position.set(-80, 35, 20);
+  mesh5.position.set(80, 35, 20);
+  mesh6.position.set(80, 35, 20);
+  lamp = new mSpotLight(0, 75, -20, mesh, 3.0, 0.5, 0.5);
+  lamp2 = new mSpotLight(175, 75, 0, mesh2, 0.5, 0.5, 2.5);
+  lamp3 = new mSpotLight(-175, 75, 0, mesh3, 0.5, 0.5, 1.5);
+  lamp4 = new mSpotLight(-175, 75, 20, mesh4, 0.5, 0.5, 2.5);
+  lamp5 = new mSpotLight(10, 75, 20, mesh5, 0.5, 0.5, 2.5);
+  lamp6 = new mSpotLight(175, 75, 20, mesh6, 0.5, 0.5, 1.5);
+}
+
+function onWindowResize() {
+  var ww = $('#container').innerWidth();
+  var hh = $('#container').innerHeight();
+  camera.aspect = ww / hh;
+  camera.updateProjectionMatrix();
+  renderer.setSize(ww, hh);
+}
+
+function keyframe(t) {
+  var s = ((t - ts) % T) / T;
+  for (var i = 1; i < keys.length; i++) {
+    if (keys[i][0] > s) break;
+  }
+  var ii = i - 1;
+  console.log (ii)
+  var a = (s - keys[ii][0]) / (keys[ii + 1][0] - keys[ii][0]);
+  intKey = keys[ii][1] * (1 - a) + keys[ii + 1][1] * a;
+	return intKey;
+}
+function print_note(){
+  if(document.getElementById("number").value === "0"){
+  	goBack();
+  }
+	else if(document.getElementById("number").value === "1"){
+  	L1();
+  }
+  else if(document.getElementById("number").value === "2"){
+  	L2();
+  }
+  else if(document.getElementById("number").value === "3"){
+  	L3();
+  }
+  else if(document.getElementById("number").value === "4"){
+  	L4();
+  }
+  else if(document.getElementById("number").value === "5"){
+  	L5();
+  }
+  else if(document.getElementById("number").value === "6"){
+  	L6();
+  }
+}
+function onDocumentMouseDown(event) {
+
+  //event.preventDefault();
+  
+  // many unsuccessful tries ...
+/*
+  mouse.x = ((event.clientX - event.target.offsetLeft) / $('#container').innerWidth()) * 2 - 1;
+  mouse.y = -((event.clientY - event.target.offsetTop) / $('#container').innerHeight()) * 2 + 1;
+*/
+  
+  var viewportPos =$('#container').get(0).getBoundingClientRect(); 
+	mouse.x = ((event.clientX - viewportPos.left) / $('#container').innerWidth()) * 2 - 1;
+  mouse.y = -((event.clientY - viewportPos.top) / $('#container').innerHeight()) * 2 + 1;
+
+	raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects (pickables);
+  //document.getElementById("note").innerHTML = intersects[0].object.name;
+  if (intersects[0].object.name === "desert1") {
+  	L1();
+  }
+  else if(intersects[0].object.name === "weed1"){
+  	L2();
+  }
+  else if(intersects[0].object.name === "snow1"){
+  	L3();
+  }
+  else if(intersects[0].object.name === "weed2"){
+  	L4();
+  }
+  else if(intersects[0].object.name === "desert2"){
+  	L5();
+  }
+  else if(intersects[0].object.name === "snow2"){
+  	L6();
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+	cameraObj1.plus();
+  cameraObj2.plus();
+  cameraObj3.plus();
+  cameraObj4.plus();
+	camera1.matrixWorld.copy(cameraObj1.obj.matrixWorld);
+  camera2.matrixWorld.copy(cameraObj2.obj.matrixWorld);
+  camera3.matrixWorld.copy(cameraObj3.obj.matrixWorld);
+  camera4.matrixWorld.copy(cameraObj4.obj.matrixWorld);
+  camera1.matrixAutoUpdate = false;
+  camera2.matrixAutoUpdate = false;
+  camera3.matrixAutoUpdate = false;
+  camera4.matrixAutoUpdate = false;
+  if(useCamera1===true){
+  	rendererM.render(scene, camera1);
+  }
+  else if(useCamera2===true){
+  	rendererM.render(scene, camera2);
+  }
+  else if(useCamera3===true){
+  	rendererM.render(scene, camera3);
+  }
+  else if(useCamera4===true){
+  	rendererM.render(scene, camera4);
+  }
+  if(look1===true){
+  	renderer.render(scene, cameraLook1);
+  }
+  else if(look2===true){
+  	renderer.render(scene, cameraLook2);
+  }
+  else if(look3===true){
+  	renderer.render(scene, cameraLook3);
+  }
+  else if(look4===true){
+  	renderer.render(scene, cameraLook4);
+  }
+  else if(look5===true){
+  	renderer.render(scene, cameraLook5);
+  }
+  else if(look6===true){
+  	renderer.render(scene, cameraLook6);
+  }
+  else{
+  	renderer.render(scene, camera);
+  }
+  render();
+}
+function L1(){
+	look1=true;
+  look2=false;
+  look3=false;
+  look4=false;
+  look5=false;
+  look6=false;
+  document.getElementById("note").innerHTML = "大漠-臘月湖"
+}
+function L2(){
+	look1=false;
+  look2=true;
+  look3=false;
+  look4=false;
+  look5=false;
+  look6=false;
+  document.getElementById("note").innerHTML = "風之平原-豐年村"
+}
+function L3(){
+	look1=false;
+  look2=false;
+  look3=true;
+  look4=false;
+  look5=false;
+  look6=false;
+  document.getElementById("note").innerHTML = "北方雪原-藥草工休息地";
+}
+function L4(){
+	look1=false;
+  look2=false;
+  look3=false;
+  look4=true;
+  look5=false;
+  look6=false;
+  document.getElementById("note").innerHTML = "風之平原-染坊"
+}
+function L5(){
+	look1=false;
+  look2=false;
+  look3=false;
+  look4=false;
+  look5=true;
+  look6=false;
+  document.getElementById("note").innerHTML = "大漠-土門客棧"
+}
+function L6(){
+	look1=false;
+  look2=false;
+  look3=false;
+  look4=false;
+  look5=false;
+  look6=true;
+  document.getElementById("note").innerHTML = "北方雪原-細語峽谷"
+}
+function goBack(){
+	look1=false;
+  look2=false;
+  look3=false;
+  look4=false;
+  look5=false;
+  look6=false;
+  document.getElementById("note").innerHTML = "說明"
+}
+
+function cam1(){
+	useCamera1=true;
+  useCamera2=false;
+  useCamera3=false;
+  useCamera4=false;
+}
+function cam2(){
+	useCamera2=true;
+  useCamera1=false;
+  useCamera3=false;
+  useCamera4=false;
+}
+function cam3(){
+	useCamera3=true;
+  useCamera1=false;
+  useCamera2=false;
+  useCamera4=false;
+}
+function cam4(){
+	useCamera4=true;
+  useCamera1=false;
+  useCamera2=false;
+  useCamera3=false;
+}
+function render() {
+  //renderer.render(scene, camera);
+  renderer1.render(scene, camera1);
+  renderer2.render(scene, camera2);
+  renderer3.render(scene, camera3);
+  renderer4.render(scene, camera4);
+}
+
+</script>
+</body>
+
+</html>
