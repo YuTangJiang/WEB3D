@@ -228,7 +228,7 @@ class mSpotLight{
 
 init();
 animate();
-renderM()
+
 function init() {
   renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -266,10 +266,10 @@ function init() {
   $('#cameraMain').append(rendererM.domElement);
   scene = new THREE.Scene();
   
-  camera = new THREE.PerspectiveCamera(45, ww / hh, 1, 10000);
+  camera = new THREE.PerspectiveCamera(60, ww / hh, 1, 10000);
   
-  camera.position.x = 0;
-  camera.position.y = 80;
+  camera.position.x = 250;
+  camera.position.y = 500;
   camera.position.z = 750;
   
   camera1 = new THREE.PerspectiveCamera(60, 1, 1, 1000);
